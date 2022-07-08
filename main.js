@@ -1,11 +1,16 @@
-
 let board = document.querySelector(".board");
 
-board.style.gridTemplateColumns = "repeat(16, 1fr)";
-board.style.gridTemplateRows = "repeat(16, 1fr)";
+function boardSize(size) {
+    board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+    board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
 
-for (let i = 0; i < 256; i++) {
-    let sq = document.createElement("div");
-    sq.style.backgroundColor = "#fff";
-    board.insertAdjacentElement("beforeend", sq);
+    let pixels = size*size;
+
+    for (let i = 0; i < size; i++) {
+        let sq = document.createElement("div");
+        sq.setAttribute("class", "box");
+        board.insertAdjacentElement("beforeend", sq);
+    }
 }
+
+boardSize(32);
