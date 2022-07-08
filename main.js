@@ -6,11 +6,23 @@ function boardSize(size) {
 
     let pixels = size*size;
 
-    for (let i = 0; i < size; i++) {
+    for (let i = 0; i < pixels; i++) {
         let sq = document.createElement("div");
         sq.setAttribute("class", "box");
         board.insertAdjacentElement("beforeend", sq);
     }
 }
 
-boardSize(32);
+function draw() {
+    boardSize(32);
+
+    const boxes = document.querySelectorAll(".box");
+
+    boxes.forEach(box => {
+        box.addEventListener("mouseover", (e) => {
+            box.style.backgroundColor = "pink";
+        });
+    });
+}
+
+draw();
