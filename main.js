@@ -1,4 +1,5 @@
 let board = document.querySelector(".board");
+let click = false;
 
 function boardSize(size) {
 	board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
@@ -26,11 +27,26 @@ function draw() {
 
 	const boxes = document.querySelectorAll(".box");
 
+    // Activate / deactivate drawing
+    board.addEventListener("click", function() {
+        click = !click;
+    })
+
+    // Make border gray when inactive
+    board.addEventListener("click", function() {
+        if (click) {
+            board.style.border = "5px solid black";
+        } else { board.style.border = "5px solid gray"; }
+    });
+
 	boxes.forEach((box) => {
 		box.addEventListener("mouseover", (e) => {
-			box.style.backgroundColor = "pink";
+            if (click) { 
+                box.style.backgroundColor = "pink";
+            }
 		});
 	});
 }
+
 
 draw();

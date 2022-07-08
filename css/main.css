@@ -16,6 +16,7 @@ header {
 
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -23,8 +24,12 @@ header {
   display: grid;
   height: 500px;
   width: 500px;
-  border: 2px solid;
+  border: 5px solid gray;
   border-radius: 5px;
+  transition: 0.1s ease-in-out;
+}
+.container p {
+  font-weight: 700;
 }
 
 .btn {
