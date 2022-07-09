@@ -56,7 +56,11 @@ function setSize() {
 
         sizeNum = Number(inputSize.value);
 
-        if (sizeNum >= 2 && sizeNum <= 100 && sizeNum%1 === 0) {
+        if (sizeNum >= 2 && sizeNum <= 100) {
+
+            if (sizeNum%1 !== 0) { // Convert float input to int
+                sizeNum -= sizeNum%1;
+            } 
 
             boardSize(sizeNum);
             boardDraw(drawColor);
