@@ -15,7 +15,18 @@
         <div class="board"></div>
     </div>
     <div class="buttons">
-        <button id="btnReset" class="btn">Clear</button>
+        <button id="btnClear" class="btn">Clear</button>
+        <div class="changeSize">
+            <input 
+            id="inputSize" 
+            type="text" 
+            maxlength="3" 
+            placeholder="32" 
+            value="32"
+            onfocus="this.value=''"
+            />
+            <button id="setSize" class="btn btnInput">Set size</button>
+        </div>
     </div>
 </body>
 </html>

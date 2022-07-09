@@ -3,6 +3,7 @@ let click = false;
 
 let drawColor = "pink";
 let clearColor = "white";
+
 let size = 32;
 
 function boardSize(size) {
@@ -11,6 +12,13 @@ function boardSize(size) {
 
 	let pixels = size * size;
 
+	// Remove old board
+	let boxes = document.querySelectorAll(".box");
+	boxes.forEach((box) => {
+		box.remove();
+	});
+
+	// Generate new board
 	for (let i = 0; i < pixels; i++) {
 		let sq = document.createElement("div");
 		sq.setAttribute("class", "box");
@@ -31,12 +39,34 @@ function boardDraw(color) {
 }
 
 function boardClear(color) {
-    const pixels = size*size;
-    
+
+	const pixels = size * size;
+
 	let box = document.querySelectorAll(".box");
 	for (let i = 0; i < pixels; i++) {
 		box[i].style.backgroundColor = color;
 	}
+}
+
+function setSize() {
+
+    let inputSize = document.getElementById("inputSize");
+
+    document.querySelector("#setSize").addEventListener("click", () => {
+
+        sizeNum = Number(inputSize.value);
+
+        if (sizeNum >= 2 && sizeNum <= 100 && sizeNum%1 === 0) {
+
+            boardSize(sizeNum);
+            boardDraw(drawColor);
+            
+            document.querySelector("#inputSize").setAttribute("placeholder", sizeNum);
+            size = inputSize.value; // Save size value for other functions ex. boardClear
+            inputSize.value = ''; // Clear value after button click
+
+        }
+    })
 }
 
 // Toggle drawing
@@ -51,11 +81,10 @@ board.addEventListener("click", function () {
 	}
 });
 
-document.querySelector("#btnReset").addEventListener("click", () => {
-    boardClear(clearColor);
+document.querySelector("#btnClear").addEventListener("click", () => {
+	boardClear(clearColor);
 });
 
-window.onload = () => {
-    boardSize(size);
-    boardDraw(drawColor);
-};
+boardSize(size);
+boardDraw(drawColor);
+setSize();
