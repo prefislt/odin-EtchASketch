@@ -1,5 +1,6 @@
 let board = document.querySelector(".board");
 let click = false;
+let toggle = false;
 
 let drawColor = "pink";
 let clearColor = "white";
@@ -39,7 +40,6 @@ function boardDraw(color) {
 }
 
 function boardClear(color) {
-
 	const pixels = size * size;
 
 	let box = document.querySelectorAll(".box");
@@ -49,42 +49,79 @@ function boardClear(color) {
 }
 
 function setSize() {
+	let inputSize = document.getElementById("inputSize");
 
-    let inputSize = document.getElementById("inputSize");
+	document.querySelector("#setSize").addEventListener("click", () => {
+		sizeNum = Math.trunc(Number(inputSize.value));
 
-    document.querySelector("#setSize").addEventListener("click", () => {
+		if (sizeNum >= 2 && sizeNum <= 100) {
+			boardSize(sizeNum);
+			boardDraw(drawColor);
 
-        sizeNum = Math.trunc(Number(inputSize.value));
-
-        if (sizeNum >= 2 && sizeNum <= 100) {
-
-            boardSize(sizeNum);
-            boardDraw(drawColor);
-            
-            document.querySelector("#inputSize").setAttribute("placeholder", sizeNum);
-            size = inputSize.value; // Save size value for other functions ex. boardClear
-            inputSize.value = ''; // Clear value after button click
-
-        }
-    })
+			document.querySelector("#inputSize").setAttribute("placeholder", sizeNum);
+			size = inputSize.value; // Save size value for other functions ex. boardClear
+			inputSize.value = ""; // Clear value after button click
+		}
+	});
 }
 
-// Toggle drawing
-board.addEventListener("click", function () {
-	click = !click;
+function toggleMode() {
+    click = !click;
 
-	if (click) {
-		// Border color change on toggle
-		board.style.border = "5px solid black";
-	} else {
-		board.style.border = "5px solid gray";
-	}
-});
+    if (click) {
+        // Border color change on toggle
+        board.style.border = "5px solid black";
+    } else {
+        board.style.border = "5px solid gray";
+    }
+}
 
-document.querySelector("#btnClear").addEventListener("click", () => {
-	boardClear(clearColor);
-});
+function clickTrue() {
+    click = true;
+    board.style.border = "5px solid black";
+}
+
+function clickFalse() {
+    click = false;
+    board.style.border = "5px solid gray";
+}
+
+function drawToggle() {
+    board.addEventListener("click", toggleMode)
+}
+
+function drawHold() {
+	board.addEventListener("mousedown", clickTrue);
+	board.addEventListener("mouseup", clickFalse);
+}
+
+function drawModes() {
+    document.querySelector("#toggleMode").addEventListener("click", () => {
+        toggle = !toggle;
+    
+        if (toggle == true) {
+            document.querySelector("#toggleMode").innerText = "Toggle mode";
+            board.removeEventListener("mousedown", clickTrue);
+            board.removeEventListener("mouseup", clickFalse);
+            drawToggle();
+        }
+        if (toggle == false) {
+            document.querySelector("#toggleMode").innerText = "Hold mode";
+            board.removeEventListener("click", toggleMode);
+            drawHold();
+        }
+    });
+}
+
+function clearButton() {
+    document.querySelector("#btnClear").addEventListener("click", () => {
+        boardClear(clearColor);
+    });
+}
 
 boardSize(size);
 boardDraw(drawColor);
 setSize();
+drawHold();
+drawModes();
+clearButton();
