@@ -1,6 +1,10 @@
 let board = document.querySelector(".board");
 let click = false;
 
+let drawColor = "pink";
+let clearColor = "white";
+let size = 32;
+
 function boardSize(size) {
 	board.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
 	board.style.gridTemplateRows = `repeat(${size}, 1fr)`;
@@ -12,41 +16,46 @@ function boardSize(size) {
 		sq.setAttribute("class", "box");
 		board.insertAdjacentElement("beforeend", sq);
 	}
-
-    // Reset button
-    document.querySelector("#btnReset").addEventListener("click", function(e) { 
-        let box = document.querySelectorAll(".box");
-        for (let i = 0; i < pixels; i++) {
-            box[i].style.backgroundColor = "white";
-        }    
-    })
 }
 
-function draw() {
-	boardSize(32);
-
+function boardDraw(color) {
 	const boxes = document.querySelectorAll(".box");
 
-    // Activate / deactivate drawing
-    board.addEventListener("click", function() {
-        click = !click;
-    })
-
-    // Make border gray when inactive
-    board.addEventListener("click", function() {
-        if (click) {
-            board.style.border = "5px solid black";
-        } else { board.style.border = "5px solid gray"; }
-    });
-
 	boxes.forEach((box) => {
-		box.addEventListener("mouseover", (e) => {
-            if (click) { 
-                box.style.backgroundColor = "pink";
-            }
+		box.addEventListener("mouseover", () => {
+			if (click) {
+				box.style.backgroundColor = color;
+			}
 		});
 	});
 }
 
+function boardClear(color) {
+    const pixels = size*size;
+    
+	let box = document.querySelectorAll(".box");
+	for (let i = 0; i < pixels; i++) {
+		box[i].style.backgroundColor = color;
+	}
+}
 
-draw();
+// Toggle drawing
+board.addEventListener("click", function () {
+	click = !click;
+
+	if (click) {
+		// Border color change on toggle
+		board.style.border = "5px solid black";
+	} else {
+		board.style.border = "5px solid gray";
+	}
+});
+
+document.querySelector("#btnReset").addEventListener("click", () => {
+    boardClear(clearColor);
+});
+
+window.onload = () => {
+    boardSize(size);
+    boardDraw(drawColor);
+};
